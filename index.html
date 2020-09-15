@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silvinho</title>
+
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        #app {
+            height: 100vh;
+            background-color: azure;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #calculadora {
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+        }
+
+        #calculadora>.entrada {
+            margin-top: 10px;
+        }
+
+        .entrada {
+            display: flex;
+            align-items: center;
+        }
+
+        .mostrador {
+            height: 25px;
+            font-size: 1.2em;
+            text-align: center;
+        }
+
+        button {
+            height: 25px;
+            width: 150px;
+            margin-left: 10px;
+        }
+
+        #resultado {
+            width: 150px;
+            text-align: center;
+            font-family: 'Courier New', Courier, monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h1>Calculadora de IMC</h1>
+
+        <div id="calculadora">
+            <div class="entrada">
+                <input type="text" id="mostrador" class="mostrador" disabled>
+                <span id="resultado"></span>
+            </div>
+
+            <div class="entrada">
+                <input type="text" class="mostrador" id="altura">
+                <button onclick="resetar()">Reset</button>
+            </div>
+
+            <div class="entrada">
+                <input type="text" class="mostrador" id="peso">
+                <button onclick="calcular()">Calcular</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const $ = document.querySelector.bind(document)
+
+        const mostrador = $('#mostrador')
+        const altura = $('#altura')
+        const peso = $('#peso')
+        const resultado = $('#resultado')
+
+        mostrador.value = 0
+        altura.value = 0
+        peso.value = 0
+
+        function classificacao(imc) {
+            let classe = ''
+
+            const opcoes = [18.5, 24.9, 29.9, 34.9, 39.9, 200]
+            const respostas = ["Abaixo do peso", "Peso normal", "Acima do peso", "Obesidade", "Obesidade mórbida", "Da cova é um pé"]
+
+            const index = opcoes.findIndex(item => imc <= item)
+            resultado.innerHTML = respostas[index]
+        }
+
+        function calcular() {
+            const alturaAtual = +altura.value
+            const pesoAtual = +peso.value
+
+            const imc = pesoAtual / (alturaAtual * alturaAtual)
+            mostrador.value = (imc * 10000).toFixed(2)
+
+            classificacao(+mostrador.value)
+        }
+
+        function resetar() {
+            mostrador.value = 0
+            altura.value = 0
+            peso.value = 0
+            resultado.innerHTML = ''
+        }
+
+
+    </script>
+</body>
+
+</html>
